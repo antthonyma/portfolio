@@ -249,14 +249,21 @@ window.addEventListener('scroll', () => {
 function animateCounter(element, target, duration = 2000) {
     let start = 0;
     const increment = target / (duration / 16);
+    const hasPlus = element.innerHTML.includes('+');
     
     function updateCounter() {
         start += increment;
         if (start < target) {
+            // During animation, only show the number without the plus
             element.textContent = Math.floor(start);
             requestAnimationFrame(updateCounter);
         } else {
-            element.textContent = target;
+            // At the end, show the final value with plus if it originally had one
+            if (hasPlus) {
+                element.innerHTML = target + '<span class="plus-sign">+</span>';
+            } else {
+                element.textContent = target;
+            }
         }
     }
     
